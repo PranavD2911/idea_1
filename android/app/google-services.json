@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "759517838065",
+    "project_id": "shopwithme-9ce85",
+    "storage_bucket": "shopwithme-9ce85.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:759517838065:android:30303f95a6ddefd94d8750",
+        "android_client_info": {
+          "package_name": "com.example.idea_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBC1GOg7VusFFl2LSYhqDV5PfjCIAwz_0k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
