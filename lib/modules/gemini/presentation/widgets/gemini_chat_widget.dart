@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:idea_1/modules/gemini/data/models/chat_message_model.dart';
 import 'package:idea_1/modules/gemini/data/models/gemini_request_model.dart';
 import 'package:idea_1/modules/gemini/presentation/bloc/gemini_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'conversation_provider.dart';
+import 'package:intl/intl.dart';
 
 class GeminiChatWidget extends StatelessWidget {
   GeminiChatWidget({Key? key}) : super(key: key);
@@ -30,7 +32,6 @@ class GeminiChatWidget extends StatelessWidget {
   }
 
   void _scrollToBottom() {
-    // Post-frame callback ensures that the scroll occurs after the widget rebuilds.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (geminiBloc.scrollController.hasClients) {
         geminiBloc.scrollController.animateTo(
@@ -42,11 +43,18 @@ class GeminiChatWidget extends StatelessWidget {
     });
   }
 
+  bool isToday(DateTime date) {
+    final now = DateTime.now();
+    return now.year == date.year &&
+        now.month == date.month &&
+        now.day == date.day;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Gemini Chat Widget'),
+        title: const Text('Gemini Chat'),
         actions: [
           InkWell(
             onTap: () {
@@ -94,50 +102,109 @@ class GeminiChatWidget extends StatelessWidget {
                           itemBuilder: (context, index) {
                             if (index <
                                 conversationProvider.conversation.length) {
-                              final messageMap =
+                              final ChatMessage chatMessage =
                                   conversationProvider.conversation[index];
-                              final isUser = messageMap.containsKey("user");
-                              final message = isUser
-                                  ? messageMap["user"]!
-                                  : messageMap["gemini"]!;
-                              return Align(
-                                alignment: isUser
-                                    ? Alignment.centerRight
-                                    : Alignment.centerLeft,
-                                child: Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 5.0),
-                                  padding: const EdgeInsets.all(10.0),
-                                  decoration: BoxDecoration(
-                                    color: isUser ? Colors.blue : Colors.grey,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: const Radius.circular(5),
-                                      topRight: const Radius.circular(5),
-                                      bottomLeft: isUser
-                                          ? const Radius.circular(5)
-                                          : Radius.zero,
-                                      bottomRight: isUser
-                                          ? Radius.zero
-                                          : const Radius.circular(5),
+                              final isUser = chatMessage.sender == 'user';
+
+                              // Determine if we need to show a header.
+                              bool shouldShowHeader = false;
+                              if (index == 0) {
+                                shouldShowHeader = true;
+                              } else {
+                                final previousMessage = conversationProvider
+                                    .conversation[index - 1];
+                                if (chatMessage.timestamp.year !=
+                                        previousMessage.timestamp.year ||
+                                    chatMessage.timestamp.month !=
+                                        previousMessage.timestamp.month ||
+                                    chatMessage.timestamp.day !=
+                                        previousMessage.timestamp.day) {
+                                  shouldShowHeader = true;
+                                }
+                              }
+
+                              return Column(
+                                crossAxisAlignment: isUser
+                                    ? CrossAxisAlignment.end
+                                    : CrossAxisAlignment.start,
+                                children: [
+                                  // Show header if needed.
+                                  if (shouldShowHeader)
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0),
+                                      child: Center(
+                                        child: Text(
+                                          isToday(chatMessage.timestamp)
+                                              ? 'Today'
+                                              : DateFormat('MMMM dd, yyyy')
+                                                  .format(
+                                                      chatMessage.timestamp),
+                                          style: const TextStyle(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  Align(
+                                    alignment: isUser
+                                        ? Alignment.centerRight
+                                        : Alignment.centerLeft,
+                                    child: Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 5.0),
+                                      padding: const EdgeInsets.all(10.0),
+                                      decoration: BoxDecoration(
+                                        color:
+                                            isUser ? Colors.blue : Colors.grey,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: const Radius.circular(5),
+                                          topRight: const Radius.circular(5),
+                                          bottomLeft: isUser
+                                              ? const Radius.circular(5)
+                                              : Radius.zero,
+                                          bottomRight: isUser
+                                              ? Radius.zero
+                                              : const Radius.circular(5),
+                                        ),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: isUser
+                                            ? CrossAxisAlignment.end
+                                            : CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            chatMessage.message,
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                          const SizedBox(height: 4),
+                                          Text(
+                                            DateFormat('hh:mm a')
+                                                .format(chatMessage.timestamp),
+                                            style: const TextStyle(
+                                              color: Colors.white70,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                  child: Text(
-                                    message,
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                ),
+                                ],
                               );
                             } else {
-                              // Show typing indicator if loading.
+                              // For the typing indicator.
                               return Align(
                                 alignment: Alignment.centerLeft,
                                 child: Container(
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 5.0),
                                   padding: const EdgeInsets.all(10.0),
-                                  decoration: const BoxDecoration(
+                                  decoration: BoxDecoration(
                                     color: Colors.grey,
-                                    borderRadius: BorderRadius.only(
+                                    borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(5),
                                       topRight: Radius.circular(5),
                                       bottomRight: Radius.circular(5),

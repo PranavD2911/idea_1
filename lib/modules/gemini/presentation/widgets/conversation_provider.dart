@@ -1,27 +1,37 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:idea_1/modules/gemini/data/models/chat_message_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ConversationProvider extends ChangeNotifier {
-  List<Map<String, String>> conversation = [];
+  List<ChatMessage> conversation = [];
 
   ConversationProvider() {
     loadConversation();
   }
-  void clearConversation() {
-    conversation.clear();
-    saveConversation(); // update local storage if needed
-    notifyListeners();
-  }
 
   void addUserMessage(String message) {
-    conversation.add({"user": message});
+    conversation.add(ChatMessage(
+      sender: 'user',
+      message: message,
+      timestamp: DateTime.now(),
+    ));
     saveConversation();
     notifyListeners();
   }
 
   void addGeminiMessage(String message) {
-    conversation.add({"gemini": message});
+    conversation.add(ChatMessage(
+      sender: 'gemini',
+      message: message,
+      timestamp: DateTime.now(),
+    ));
+    saveConversation();
+    notifyListeners();
+  }
+
+  void clearConversation() {
+    conversation.clear();
     saveConversation();
     notifyListeners();
   }
@@ -31,15 +41,16 @@ class ConversationProvider extends ChangeNotifier {
     String? data = prefs.getString("conversation");
     if (data != null) {
       List<dynamic> decoded = json.decode(data);
-      conversation = List<Map<String, String>>.from(
-          decoded.map((e) => Map<String, String>.from(e)));
+      conversation = decoded
+          .map((e) => ChatMessage.fromJson(Map<String, dynamic>.from(e)))
+          .toList();
       notifyListeners();
     }
   }
 
   Future<void> saveConversation() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String data = json.encode(conversation);
+    String data = json.encode(conversation.map((e) => e.toJson()).toList());
     await prefs.setString("conversation", data);
   }
 }
