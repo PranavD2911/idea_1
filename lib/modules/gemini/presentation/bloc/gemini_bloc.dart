@@ -15,6 +15,9 @@ part 'gemini_state.dart';
 
 class GeminiBloc extends Bloc<GeminiEvent, GeminiState> {
   final TextEditingController chatController = TextEditingController();
+  final ScrollController scrollController = ScrollController();
+
+  final GlobalKey<FormState> chatFormKey = GlobalKey<FormState>();
   GeminiBloc() : super(GeminiInitial()) {
     on<GeminiEvent>((event, emit) {});
     on<GeminiRequestEvent>(geminiRequest);

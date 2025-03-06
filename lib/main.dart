@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:idea_1/common/utils/bottom_navigation_bar.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:idea_1/modules/gemini/presentation/widgets/conversation_provider.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -8,7 +10,12 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ConversationProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
