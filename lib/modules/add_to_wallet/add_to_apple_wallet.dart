@@ -43,7 +43,7 @@ final String _passId = const Uuid().v4();
 final String _passId1 = const Uuid().v4();
 const String _passClass = 'DemoTicket';
 const String _issuerId = '3388000000022883323';
-const String _issuerEmail = 'anujyeole23@gmail.com';
+const String _issuerEmail = 'pratikkotkar2001@gmail.com';
 
 final String _examplePass = """
     {
@@ -78,7 +78,7 @@ final String _examplePass = """
             "header": {
               "defaultValue": {
                 "language": "en",
-                "value": "Anuj Yeole"
+                "value": "Pratik Kotkar"
               }
             },
             "barcode": {
@@ -123,7 +123,7 @@ final String _examplePass = """
             "header": {
               "defaultValue": {
                 "language": "en",
-                "value": "Kapil Deore"
+                "value": "Pranav Dhage"
               }
             },
             "barcode": {
