@@ -23,6 +23,18 @@ class _HomeScreenMobileViewState extends State<HomeScreenMobileView> {
       onPopInvoked: (didPop) => SystemNavigator.pop(),
       child: SafeArea(
         child: Scaffold(
+          floatingActionButton: InkWell(
+            child: Container(
+                height: 50,
+                width: 50,
+                decoration: const BoxDecoration(
+                    shape: BoxShape.circle, color: Colors.amber),
+                child: const Icon(Icons.chat)),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => GeminiChatWidget()));
+            },
+          ),
           body: CustomScrollView(
             physics: const BouncingScrollPhysics(),
             slivers: [
@@ -136,9 +148,11 @@ class _HomeScreenMobileViewState extends State<HomeScreenMobileView> {
                                           direction: Axis.horizontal,
                                           allowHalfRating: true,
                                           itemCount: 5,
-                                          itemPadding: EdgeInsets.symmetric(
-                                              horizontal: 4.0),
-                                          itemBuilder: (context, _) => Icon(
+                                          itemPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 4.0),
+                                          itemBuilder: (context, _) =>
+                                              const Icon(
                                             Icons.star,
                                             color: Colors.amber,
                                           ),
@@ -259,9 +273,11 @@ class _HomeScreenMobileViewState extends State<HomeScreenMobileView> {
                                           direction: Axis.horizontal,
                                           allowHalfRating: true,
                                           itemCount: 5,
-                                          itemPadding: EdgeInsets.symmetric(
-                                              horizontal: 4.0),
-                                          itemBuilder: (context, _) => Icon(
+                                          itemPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 4.0),
+                                          itemBuilder: (context, _) =>
+                                              const Icon(
                                             Icons.star,
                                             color: Colors.amber,
                                           ),
@@ -377,9 +393,11 @@ class _HomeScreenMobileViewState extends State<HomeScreenMobileView> {
                                           direction: Axis.horizontal,
                                           allowHalfRating: true,
                                           itemCount: 5,
-                                          itemPadding: EdgeInsets.symmetric(
-                                              horizontal: 4.0),
-                                          itemBuilder: (context, _) => Icon(
+                                          itemPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 4.0),
+                                          itemBuilder: (context, _) =>
+                                              const Icon(
                                             Icons.star,
                                             color: Colors.amber,
                                           ),
@@ -479,27 +497,6 @@ class _HomeScreenMobileViewState extends State<HomeScreenMobileView> {
                         height: 10,
                       ),
                       const AddToGoogleWalletWidget(),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => GeminiChatWidget(),
-                              ));
-                        },
-                        child: const Text(
-                          "Chat with Gemini",
-                          style: TextStyle(
-                            color: Colors.green,
-                            fontSize: 18,
-                            fontFamily: "SourceSansPro",
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
                       const SizedBox(
                         height: 20,
                       ),
