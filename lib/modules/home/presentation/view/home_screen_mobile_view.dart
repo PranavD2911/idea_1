@@ -475,24 +475,24 @@ class _HomeScreenMobileViewState extends State<HomeScreenMobileView> {
                       const SizedBox(
                         height: 10,
                       ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const QRViewExample(),
-                              ));
-                        },
-                        child: const Text(
-                          "QR Scanner",
-                          style: TextStyle(
-                            color: Colors.yellow,
-                            fontSize: 18,
-                            fontFamily: "SourceSansPro",
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
+                      // InkWell(
+                      //   onTap: () {
+                      //     Navigator.push(
+                      //         context,
+                      //         MaterialPageRoute(
+                      //           builder: (context) => const QRViewExample(),
+                      //         ));
+                      //   },
+                      //   child: const Text(
+                      //     "QR Scanner",
+                      //     style: TextStyle(
+                      //       color: Colors.yellow,
+                      //       fontSize: 18,
+                      //       fontFamily: "SourceSansPro",
+                      //       fontWeight: FontWeight.w500,
+                      //     ),
+                      //   ),
+                      // ),
                       const SizedBox(
                         height: 10,
                       ),

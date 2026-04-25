@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:idea_1/modules/checkout/presentation/view/cart_mobile_view.dart';
 import 'package:idea_1/modules/home/presentation/view/home_screen_mobile_view.dart';
 import 'package:idea_1/modules/wishlist/presentation/view/wishlist_mobile_view.dart';
+import 'package:idea_1/modules/view_3d/presentation/view/view_3d_page.dart';
 import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
 
 class CustomBottomNav extends StatefulWidget {
@@ -25,7 +26,8 @@ class _MyHomePageState extends State<CustomBottomNav> {
   final List<Widget> bottomBarPages = [
     const HomeScreenMobileView(),
     const WishListMobileView(),
-    const CartMobileView()
+    const CartMobileView(),
+    const View3DPage(),
   ];
   @override
   void initState() {
@@ -43,6 +45,7 @@ class _MyHomePageState extends State<CustomBottomNav> {
             HomeScreenMobileView(),
             WishListMobileView(),
             CartMobileView(),
+            View3DPage(),
           ],
         ),
         extendBody: true,
@@ -71,6 +74,10 @@ class _MyHomePageState extends State<CustomBottomNav> {
             BarItem(
               filledIcon: Icons.shopping_bag,
               outlinedIcon: Icons.shopping_bag_outlined,
+            ),
+            BarItem(
+              filledIcon: Icons.view_in_ar_rounded,
+              outlinedIcon: Icons.view_in_ar_outlined,
             ),
           ],
         ),
